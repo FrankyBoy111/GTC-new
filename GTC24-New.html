@@ -14,143 +14,146 @@
 		
 <style type="text/css">
 
-*{padding:0; margin:0; border:0; font-family:Arial, Helvetica, Sans-serif, Tahoma; font-weight:normal;}
+* {
+margin: 0;
+border: 0;
+padding: 0;
+text-align: center;
+vertical-align: middle;
+font-family: Arial,Tahoma;
+font-weight: normal;
+}
 
-.Box {  margin:0; background-color:Beige; border:2px solid Teal; border-radius:10px;}
+.Box {
+background-color: Beige;
+}
 
 .TitleDiv {
-font-size:20px;
-background-color:Teal;
-color:White;
+font-size: 20px;
+background-color: Teal;
+color: White;
 font-weight: bold;
-border-top-left-radius:8px;
-border-top-right-radius:8px;
-padding:5px 5px 5px 15px;
+padding-top: 5px;
+padding-bottom: 5px;
 }
 
-.DayDiv{
-text-align: center;
-font-family:Comic Sans MS;
+.DayDiv {
+font-family: Comic Sans MS;
 font-size: 22px;
 padding-top: 15px;
-color:DarkGreen;
+color: DarkGreen;
 cursor: pointer;
 }
 
-.DatumDiv{
-text-align: center;
-font-family:Comic Sans MS;
+.DatumDiv {
+font-family: Comic Sans MS;
 font-size: 22px;
 padding-top: 5px;
-color:DarkGreen;
+color: DarkGreen;
 cursor: pointer;
 }
 
-.LocationDiv{
-text-align: center;
+.LocationDiv {
 padding-top: 20px;
 padding-bottom: 30px; 
 }
 
 .LocationSelector {
-font-family:Comic Sans MS;
+font-family: Comic Sans MS;
 font-size: 22px;
 appearance: none;
-color:DarkBlue;
-background-color:Beige;
-text-align: center;
+color: DarkBlue;
+background-color: Beige;
 cursor: pointer;
+outline: 0px;
 }
 
-select#myLocations {
-   outline:0px;
+.TidesTable {
+display: table;
+width:94%;
+margin: auto;
 }
 
-.TidesTable { display: table; width:94%;  margin: 0 auto; }
+.DarkRow {
+color: DarkGreen;
+background-color: Gainsboro;
+}
 
-.DarkRow { display: table-row; color:DarkGreen; background-color:Gainsboro;}
-.LightRow { display: table-row;color:DarkBlue; background-color:LightBlue;  }
+.LightRow { 
+color: DarkBlue;
+background-color:LightBlue;
+}
 
 .DescriptionCell {
-display: table-cell;
-text-align: center;
-vertical-align: middle;
 font-size: 16px;
 font-weight: bold;
-padding:8px 15px 8px 15px;
+padding:8px 15px 8px 15px;    /*volgorde = Top Right Bottom Left */
 border-top: 2px solid White;
 border-left: 2px solid White;
-color:inherit;
 width:50%;
 }
 
 .TimeCell {
-display: table-cell;
-text-align: center;
-vertical-align: middle;
 font-size: 16px;
 font-weight: bold;
 padding:8px 15px 8px 15px;
 border-top: 2px solid White;
 border-left: 2px solid White;
-color:inherit;
 }
 
-.SpringTable { display: table; width:94%;  margin: 0 auto; }
-.SpringRow { display: table-row; color:DarkGreen; background-color:Thistle;}
-.NeapRow { display: table-row; color:DarkBlue; background-color:LightGray;}
+.SpringTable {
+width:94%; 
+margin: auto;
+}
+
+.SpringRow {
+color: DarkGreen;
+background-color: Thistle;
+}
+
+.NeapRow {
+color:DarkBlue;
+background-color: LightGray;
+}
 
 .SpringDescriptionCell {
-display: table-cell;
-text-align: center;
-vertical-align: middle;
 font-size: 16px;
 font-weight: bold;
 padding:8px 15px 8px 15px;
 border-top: 2px solid White;
 border-left: 2px solid White;
-color:inherit;
 }
 
 .SpringTimeCell {
-display: table-cell;
-text-align: center;
-vertical-align: middle;
 font-size: 16px;
 font-weight: bold;
 padding:8px 15px 8px 15px;
 border-top: 2px solid White;
 border-left: 2px solid White;
-color:inherit;
 }
 
 .NeapDescriptionCell {
-display: table-cell;
-text-align: center;
-vertical-align: middle;
 font-size: 16px;
 font-weight: bold;
 padding:8px 15px 8px 15px;
 border-top: 2px solid White;
 border-left: 2px solid White;
-color:inherit;
 width:50%;
 }
 
 .NeapTimeCell {
-display: table-cell;
-text-align: center;
-vertical-align: middle;
 font-size: 16px;
 font-weight: bold;
 padding:8px 15px 8px 15px;
 border-top: 2px solid White;
 border-left: 2px solid White;
-color:inherit;
 }
 
-.BottomBox{ display: table; width:100%;  padding:40px 0px 40px 0px; }  /*volgorde = Top Right Bottom Left */
-.ClickDiv { display: table-cell; text-align: center; }
+.BottomTable {
+width:100%;
+padding-top: 40px;
+pdding-bottom:40px;
+}
 
 .Btn {
 font-size: 14px;
@@ -168,49 +171,42 @@ color: Black;
 #IntroDiv {
 position: absolute;
 background-color: Grey;
-border-radius:10px;
-top: 20%;
-left: 14px;
-width: 326px;
-
-margin:0;
-text-align: center;
-hidden: true
+top: 0%;
+width: 100%;
+height : auto;
+max-height: 100%;
 }
 
 #IntroTitleDiv{
-  width: auto;
-  height : auto;
-  max-height: 100%;
-  max-width: 100%;
-  text-align: center;
-  font-size: 22px;
-  font-family:Comic Sans MS;
-  color:Red;
-  background-color:Beige;
-  padding:0px 15px 15px 15px;
+font-size: 22px;
+font-family:Comic Sans MS;
+color:Red;
+background-color:Beige;
+padding-bottom: 15px;
 }
 
 #IntroPhoto {
-  width: auto;
-  height : auto;
-  max-height: 100%;
-  max-width: 100%;
+width: auto;
+height : auto;
+max-height: 70%;
+max-width: 50%;
+}
+
+.IntroButtonTable {
 }
 
 #IntroBtn{
-position: absolute;
-top: 92%;
-left: 26%;
+width: 150px;
+height: 40px;
 font-size: 14px;
 padding: 5px 5px 5px 5px;
 border-radius: 5px;
 border-right: 2px solid DarkGray;
 border-bottom: 2px solid DimGray;
 cursor: pointer;
-width: 150px;
-height: 40px;
 color: Black;
+margin-top: 20px;
+margin-bottom: 20px;
 }
 
 
@@ -220,8 +216,6 @@ color: Black;
 </script>
 
 </head>
-
-<!--     <body onload="setBackground()">   -->
 
 <body>
 
@@ -248,72 +242,89 @@ color: Black;
     
     </div>
 
-    <div class="TidesTable">
+    <table class="TidesTable">
 
-        <div class="DarkRow">
-            <div class="DescriptionCell" id="D1" >D1</div>
-            <div class="TimeCell" id="T1">T1</div>
-        </div>
+        <tr class="DarkRow">
+            <td class="DescriptionCell" id="D1" >D1</td>
+            <td class="TimeCell" id="T1">T1</td>
+        </tr>
 
-        <div class="LightRow">
-            <div class="DescriptionCell" id="D2" >D2</div>
-            <div class="TimeCell" id="T2" >T2</div>
-        </div>
+        <tr class="LightRow">
+            <td class="DescriptionCell" id="D2" >D2</td>
+            <td class="TimeCell" id="T2" >T2</td>
+        </tr>
 
-        <div class="DarkRow">
-            <div class="DescriptionCell" id="D3" >D3</div>
-            <div class="TimeCell" id="T3" >T3</div>
-        </div>
+        <tr class="DarkRow">
+            <td class="DescriptionCell" id="D3" >D3</td>
+            <td class="TimeCell" id="T3" >T3</td>
+        </tr>
 
-        <div class="LightRow">
-            <div class="DescriptionCell" id="D4" >D4</div>
-            <div class="TimeCell" id="T4" >T4</div>
-        </div>
+        <tr class="LightRow">
+            <td class="DescriptionCell" id="D4" >D4</td>
+            <td class="TimeCell" id="T4" >T4</td>
+        </tr>
 
-    </div>
+    </table>
 
     <br>
 
-    <div class="SpringTable">
+    <table class="SpringTable">
 
-        <div class="SpringRow">
-            <div class="SpringDescriptionCell">Springtij</div>
-            <div class="SpringTimeCell" id="SD1">-3 dagen</div>
+        <tr class="SpringRow">
+            <td class="SpringDescriptionCell">Springtij</td>
+            <td class="SpringTimeCell" id="SD1">-3 dagen</td>
+        </tr>
+
+        <tr class="SpringRow">
+            <td class="SpringDescriptionCell"></td>
+            <td class="SpringTimeCell" id="SD2" >+2 dagen</td>
+        </tr>
+
+        <tr class="NeapRow">
+            <td class="NeapDescriptionCell">Doodtij</td>
+            <td class="NeapTimeCell" id="SD3" >-7 dagen</td>
+        </tr>
+
+        <tr class="NeapRow">
+            <td class="NeapDescriptionCell"></td>
+            <td class="NeapTimeCell" id="SD4" >+12 dagen</td>
+        </tr>
+
+    </table>
+
+  <table class="BottomTable">
+    <tr>
+        <td class="ClickCell" >
+            <button type="button" class="Btn" onclick="DateChangeButtonClicked('Previous')">Previous</button>
+        </td>
+        <td class="ClickCell" >
+            <button type="button" class="Btn" onclick="DateChangeButtonClicked('Next')">Next</button>
+        </td>
+    </tr>
+  </table>
+
+
+    <div ID="IntroDiv" >
+
+        <div ID="IntroTitleDiv" >Welcome to <BR>Frank's Tide Calculator</div>
+
+        <div ID="">
+            <img src="IntroPhoto.jpg" id="IntroPhoto" >
         </div>
-
-        <div class="SpringRow">
-            <div class="SpringDescriptionCell"></div>
-            <div class="SpringTimeCell" id="SD2" >+2 dagen</div>
+        
+        <div ID="">
+             <button type="button" ID="IntroBtn" onclick="RemoveIntro()">Click to Continue</button>
         </div>
-
-        <div class="NeapRow">
-            <div class="NeapDescriptionCell">Doodtij</div>
-            <div class="NeapTimeCell" id="SD3" >-7 dagen</div>
-        </div>
-
-        <div class="NeapRow">
-            <div class="NeapDescriptionCell"></div>
-            <div class="NeapTimeCell" id="SD4" >+12 dagen</div>
-        </div>
-
-    </div>
- 
-  <div ID="IntroDiv" >
-
-    <div ID="IntroTitleDiv" >Welcome to <BR>Frank's Tide Calculator</div>
- <img src="https://drive.google.com/thumbnail?id=1Rkfix0AQlGOofC9r3FgWHmXCQ9aczJ67&sz=w1000" id="IntroPhoto" >
-    <button type="button" ID="IntroBtn" onclick="RemoveIntro()">Click to Continue</button>
-
-  </div>
+    
+</div>
 
 
-  <div class="BottomBox">
-    <div class="ClickDiv" ><button type="button" class="Btn" onclick="DateChangeButtonClicked('Previous')">Previous</button></div>
-    <div class="ClickDiv" ><button type="button" class="Btn" onclick="DateChangeButtonClicked('Next')">Next</button></div>
-  </div>
+
+
 
 
 </div>
+
 
 
 
@@ -369,7 +380,7 @@ color: Black;
 <script type="text/javascript">
 
 
-setIntro();
+//setIntro();
 
 
 
