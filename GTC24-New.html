@@ -7,7 +7,6 @@
 <!--
 <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content" />
 <meta name="viewport" content="width=device-width" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 -->
 
@@ -167,7 +166,7 @@ border-bottom: 2px solid DimGray;
 cursor: pointer;
 width: 80px;
 color: Black;
-display: none; /* Initieel verbergen, worden getoond na verdwijnen van Introductiescherm */
+visibility: hidden; /* Initieel verbergen, worden getoond na verdwijnen van Introductiescherm */
 }
 
 
@@ -204,7 +203,7 @@ border-right: 2px solid DarkGray;
 border-bottom: 2px solid DimGray;
 cursor: pointer;
 color: Black;
-margin-top: 20px;
+margin-top: 30px;
 margin-bottom: 20px;
 }
 
@@ -377,12 +376,13 @@ setData();
 */
 function RemoveIntro(){
 var aa, i;
+document.getElementById( "IntroDiv" ).hidden=true;
 
 aa = document.getElementsByClassName("Btn");
 for (i = 0; i < (aa.length) ; i++ ) {
-    aa[i].hidden = false ;
+    aa[i].style.visibility = "visible";
 }
-document.getElementById( "IntroDiv").hidden = true ;
+
 }
 
 
