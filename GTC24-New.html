@@ -10,7 +10,7 @@
 
 *{padding:0; margin:0; border:0; font-family:Arial, Helvetica, Sans-serif, Tahoma; font-weight:normal;}
 
-.Box { width:350px; height:583px; margin:0; background-color:Beige; border:2px solid Teal; border-radius:10px;}
+.Box { width:350px; margin:0; background-color:Beige; border:2px solid Teal; border-radius:10px;}
 
 .TitleDiv {
 font-size:20px;
@@ -292,11 +292,6 @@ color: Black;
 
     </div>
  
-  <div class="BottomBox">
-    <div class="ClickDiv" ><button type="button" class="Btn" onclick="DateChangeButtonClicked('Previous')">Previous</button></div>
-    <div class="ClickDiv" ><button type="button" class="Btn" onclick="DateChangeButtonClicked('Next')">Next</button></div>
-  </div>
-
   <div ID="IntroDiv" >
 
     <div ID="IntroTitleDiv" >Welcome to <BR>Frank's Tide Calculator</div>
@@ -304,6 +299,13 @@ color: Black;
     <button type="button" ID="IntroBtn" onclick="RemoveIntro()">Click to Continue</button>
 
   </div>
+
+
+  <div class="BottomBox">
+    <div class="ClickDiv" ><button type="button" class="Btn" onclick="DateChangeButtonClicked('Previous')">Previous</button></div>
+    <div class="ClickDiv" ><button type="button" class="Btn" onclick="DateChangeButtonClicked('Next')">Next</button></div>
+  </div>
+
 
 </div>
 
