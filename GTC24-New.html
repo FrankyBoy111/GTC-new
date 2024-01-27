@@ -9,6 +9,19 @@
 		
 <style type="text/css">
 
+.javascript-disabled {
+position: fixed;
+width: 370px;
+height: 420px;
+top: 120px;
+left: 20px;
+font-size: 22px;
+color: White;
+background-color: Red;
+text-align: center;
+z-index: 1;
+}
+
 * {
 margin: 0;
 border: 0;
@@ -212,6 +225,12 @@ display: none;
 </head>
 
 <body>
+
+<noscript>
+    <div class="javascript-disabled">
+        <img src="NoScriptPhoto.png" id="NoScriptPhoto" >  /* Zelfde afmetingen gevan als de Div */
+    </div>
+</noscript>
 
 <div class="Box">
 
@@ -704,9 +723,8 @@ myElement.style.styleFloat = "left";   // For Internet Explorer.
 myElement.style.cssFloat = "left";   // For all other browsers.
 myElement.innerHTML = "<";
 myElement.style.textAlign = "center";
-myElement.style.verticalAlign = "middle";
-myElement.style.paddingBottom = "5px";
-myElement.style.paddingTop = "5px";
+myElement.style.paddingBottom = "8px";
+myElement.style.paddingTop = "8px";
 myElement.style.color = "White";
 myElement.style.fontWeight = "bold";
 myElement.addEventListener ("mouseover", MouseOverNextOrPrevious, false);
@@ -721,9 +739,10 @@ myElement.style.styleFloat = "left";
 myElement.style.cssFloat = "left";
 myElement.innerHTML = "xxxxxxxx xxxx";
 myElement.style.color = "White";
+myElement.style.fontWeight = "bold";
 myElement.style.textAlign = "center";
-myElement.style.paddingBottom = "5px";
-myElement.style.paddingTop = "5px";
+myElement.style.paddingBottom = "8px";
+myElement.style.paddingTop = "8px";
 myDiv.appendChild (myElement);
 
 myElement = document.createElement ("div");
@@ -734,8 +753,8 @@ myElement.style.cssFloat = "left";
 myElement.innerHTML = ">";
 myElement.style.textAlign = "center";
 myElement.style.color = "White";
-myElement.style.paddingBottom = "5px";
-myElement.style.paddingTop = "5px";
+myElement.style.paddingBottom = "8px";
+myElement.style.paddingTop = "8px";
 myElement.style.fontWeight = "bold";
 myElement.addEventListener ("mouseover", MouseOverNextOrPrevious, false);
 myElement.addEventListener ("mouseout", MouseOutNextOrPrevious, false);
@@ -750,8 +769,8 @@ myElement.style.cssFloat = "left";
 myElement.innerHTML = "x";
 myElement.style.textAlign = "center";
 myElement.style.color = "White";
-myElement.style.paddingBottom = "5px";
-myElement.style.paddingTop = "5px";
+myElement.style.paddingBottom = "8px";
+myElement.style.paddingTop = "8px";
 myElement.style.fontWeight = "bold";
 myElement.addEventListener ("mouseover", MouseOverNextOrPrevious, false);
 myElement.addEventListener ("mouseout", MouseOutNextOrPrevious, false);
@@ -777,8 +796,8 @@ for ( i=0; i <= 6; i++) {
     myElement.style.textAlign = "center";
     myElement.innerHTML = GetShortWeekDay( i );
     myElement.style.color = "DarkRed";
-    myElement.style.paddingBottom = "4px";
-    myElement.style.paddingTop = "4px";
+    myElement.style.paddingBottom = "6px";
+    myElement.style.paddingTop = "6px";
     myDiv.appendChild (myElement);
 }
 myConDiv.appendChild (myDiv);
@@ -856,7 +875,9 @@ myBox.className = "DayBox";
 myBox.style.styleFloat = "left";
 myBox.style.cssFloat = "left";
 myBox.style.width = "43px";
+myBox.style.height = "30px";
 myBox.style.textAlign = "center";
+myBox.style.paddingTop = "10px";
 myBox.innerHTML = nDay;
 myBox.style.border = "1px solid Grey";
 myBox.style.margin= "2px";
