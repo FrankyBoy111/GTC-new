@@ -673,10 +673,10 @@ myConDiv = document.createElement ("div");
 myConDiv.id = "DatePickerBox";
 myConDiv.style.position = "absolute";
 myConDiv.style.top = "60px";
-myConDiv.style.left = "40px";
-myConDiv.style.width = "245px";
+myConDiv.style.left = "26px";
+myConDiv.style.width = "344px";
 myConDiv.style.fontFamily = "Tahoma, Arial, Helvetica, Sans-serif";
-myConDiv.style.fontSize = "14px";
+myConDiv.style.fontSize = "16px";
 myConDiv.style.backgroundColor = "AliceBlue";
 myConDiv.style.borderTop = "1px solid Grey";
 myConDiv.style.borderLeft = "1px solid Grey";
@@ -699,7 +699,7 @@ myDiv.style.backgroundColor = "Green";
 
 myElement = document.createElement ("div");
 myElement.id = "PreviusBox";
-myElement.style.width = "30px";
+myElement.style.width = "42px";
 myElement.style.styleFloat = "left";   // For Internet Explorer.
 myElement.style.cssFloat = "left";   // For all other browsers.
 myElement.innerHTML = "<";
@@ -716,7 +716,7 @@ myDiv.appendChild (myElement);
 
 myElement = document.createElement ("div");
 myElement.id = "MonthBox";
-myElement.style.width = "150px";
+myElement.style.width = "210px";
 myElement.style.styleFloat = "left";
 myElement.style.cssFloat = "left";
 myElement.innerHTML = "xxxxxxxx xxxx";
@@ -728,7 +728,7 @@ myDiv.appendChild (myElement);
 
 myElement = document.createElement ("div");
 myElement.id = "NextBox";
-myElement.style.width = "30px";
+myElement.style.width = "42px";
 myElement.style.styleFloat = "left";
 myElement.style.cssFloat = "left";
 myElement.innerHTML = ">";
@@ -744,7 +744,7 @@ myDiv.appendChild (myElement);
 
 myElement = document.createElement ("div");
 myElement.id = "CloseBox";
-myElement.style.width = "35px";
+myElement.style.width = "50px";
 myElement.style.styleFloat = "left";
 myElement.style.cssFloat = "left";
 myElement.innerHTML = "x";
@@ -766,14 +766,14 @@ Op de tweede rij tonen we de verkorte dagnamen. Die rij behoeft geen EventListen
 
 myDiv = document.createElement ("div");
 myDiv.id = "DayNamesBox";
-myDiv.style.height = "20px";
+//myDiv.style.height = "20px";
 myDiv.style.clear = "both";
 for ( i=0; i <= 6; i++) {
     myElement = document.createElement ("div");
     myElement.class = "DayNameBox";
     myElement.style.styleFloat = "left";
     myElement.style.cssFloat = "left";
-    myElement.style.width = "35px";
+    myElement.style.width = "49px";
     myElement.style.textAlign = "center";
     myElement.innerHTML = GetShortWeekDay( i );
     myElement.style.color = "DarkRed";
@@ -826,7 +826,7 @@ myDate = new Date( oDate.getFullYear(), oDate.getMonth(), 1);
 n = myDate.getDay();
 
 for ( i=0; i < n; i++) {
-    myElement = CreateDateBox( 0 );
+    myElement = CreateDayBox( 0 );
     myDiv.appendChild (myElement);
 }
 
@@ -834,7 +834,7 @@ for ( i=0; i < n; i++) {
 // moeten we bepalen met de functie GetNumDays(), aan de hand van het Date object, .
 numDays = GetNumDays(oDate);
 for ( i=1; i <= numDays; i++) {
-    myElement = CreateDateBox( i );
+    myElement = CreateDayBox( i );
     myDiv.appendChild (myElement);
 }
 
@@ -850,12 +850,12 @@ UpdateTodaysBoxColors(oDate)
 * afmetingen en uitlijning hetzelfde blijven, maar we geven ze dezelfde voor- en 
 * achtergrondkleur als de DatePickerBox, zodat ze onzichtbaar worden.
 */
-function CreateDateBox( nDay ){
+function CreateDayBox( nDay ){
 var myBox = document.createElement ("div");
 myBox.className = "DayBox";
 myBox.style.styleFloat = "left";
 myBox.style.cssFloat = "left";
-myBox.style.width = "29px";
+myBox.style.width = "43px";
 myBox.style.textAlign = "center";
 myBox.innerHTML = nDay;
 myBox.style.border = "1px solid Grey";
