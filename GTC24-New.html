@@ -216,8 +216,8 @@ display: none;
 <div class="Box">
 
     <div ID="TopTitle" class="TitleDiv">Frank's Tide Calculator</div>
-    <div class="DayDiv" id="DagvdWeek" >Dag van de week</div>
-    <div class="DatumDiv" id="Datum" >33 augustus 2052</div>
+    <div class="DayDiv" id="DagvdWeek" onClick="ShowDatePicker()" >Dag van de week</div>
+    <div class="DatumDiv" id="Datum" onClick="ShowDatePicker()" >33 augustus 2052</div>
 
     <div class="LocationDiv" id="Location" >
 
@@ -594,7 +594,7 @@ setData( myDate );
 * wordt automatisch door setData() opgehaald vanaf het scherm.
 */
 function LocationChanged() {
-var myDate  = GetDateObjectFromLongDate( document.getElementById( "Datum" ).innerHTML );
+var myDate = GetDateObjectFromLongDate( document.getElementById( "Datum" ).innerHTML );
 setData( myDate );
 }
 
@@ -629,245 +629,42 @@ return n;
 }
 
 
-
-
-
-
-
-
-/*************************************************************************************************
-* Onderstaande code is nog van de vorige versie.
-* Nog op te zuiveren.
-**************************************************************************************************/
-
-/***
-* Deze Udf geeft een array met de extremen van de dag waarvan de datum als parameter wordt doorgegeven.
-* Het format van parameter is bijvoorbeeld "20150518". Het aantal extremen per dag kan 3 of 4 zijn. Als er maar
-* drie extremen zijn, dan voegen we het eerste extreem van de volgende dag toe aan de array.
-* De eerste rij van de arry bevat de benaming van het extreem (H of L).
-* De tweede rij bevat de overeenkomstige tijdstippen in de vorm van Date objecten. 
-*/
-function getExtrfromDay(cDay) {
-
-var myArray , i , n;
-var dataString = document.getElementById("Tides").innerHTML;
-
-// Eerst de datum opzoeken in de string met de tijdstippen van de extremen. De variabele n is de positie van het eerste voorkomen van de datum.
-var n = dataString.search(cDay);
-
-// Als we die datum niet vinden is het gedaan.
-if ( n == -1 ) {return -1}
-
-// Vervolgens de tijdstippen van die dag stockeren in de Array.
-myArray = createArray(2,4)
-i = 0;
-while(dataString.substr(n,8) == cDay){
-    myArray[0][i] = dataString.substr(n+12,1);
-    myArray[1][i] = getDateObjectFromTimeString(dataString.substr(n,12));
-    n += 13;
-    i += 1;
-}
-
-// Als er maar drie extremen zijn op de dag cDay, dan voegen we het eerste extreem van de volgende dag toe aan de string.
-// Als de dag cDay de laatste dag van de dataString is, dan gaat dat niet. In dat laatste geval zetten we de waarden van het
-// laatste extreem in de laatste rij de array.
-// Let op: De div met de tijdstippen van Hoog- en Laagwater mag geen blanks bevatten.
-i = myArray[0].length - 1;
-if (typeof myArray[0][i] == 'undefined') {
-    if (n + 13 < dataString.length ){
-        myArray[0][i] = dataString.substr(n+12,1);
-        myArray[1][i] = getDateObjectFromTimeString(dataString.substr(n,12));
-    }
-    else {
-        myArray[0][i] = myArray[0][i-1];
-        myArray[1][i] = myArray[1][i-1];
-    }
-}
-return myArray;
-}
-
-
-/***
-* Deze Udf geeft een array met de maanfazen.
-*/
-function getMoonphases(oCurrDate, nCurrPos ){
-
-var aDateStrings = new Array(16);
-var aMoonphases = new Array(16);
-var sMoonphases;
-var myDate = new Date();
-var i, n;
-
-// De datum waarvan de gegevens op het scherm staan, is ingekleurd en staat op de positie nCurrPos.
-// Als we in het eerste element "D" of "S" moeten tonen, dan heeft dat betrekking op een maanfaze die twee dagen
-// vroeger valt, maar die kunnen we niet tonen. We hebben ze wel nodig om te bepalen of het over "D" of "S" gaat.
-// Daarom gebruiken we een array met 16 elementen, waarvan we de eerste twee verwijderen vooraleer we hem
-// teruggeven. De startdatum valt dus nCurrPos + 2 dagen vroeger dan de ingekleurde datum (dagnaam).
-
-myDate.setTime( oCurrDate.getTime() - ( ( nCurrPos + 2 ) * 86400000 ) );
-
-// Dan de array met dat DateStrings aanvullen.
-for ( i=0 ; i<aDateStrings.length ; i+=1 ){
-
-    aDateStrings[i] = getTimeStringFromDateObject( myDate ).substr(0,8);
-    myDate.setTime( myDate.getTime() + 86400000 ) ;
-}
-
-// We zouden nu de DateString van ieder van de 16 elementen moeten opzoeken in de div met de maanfazen,
-// maar voor de meeste datums gaan we niets vinden. Dat zou wel eens langdradig kunnen zijn. Daarom zoeken
-// we eerst naar de maand die overeen komt met het eerste element en maken een String met 10 opeenvolgende
-// maanfazen vanaf het eerste voorkomen.
-
-// Eerst de maand van de eerste datum opzoeken in de div met de maanfazen. De variabele i is de positie
-// van het eerste voorkomen van de datum.
-sMoonphases = document.getElementById("Moonphases").innerHTML
-i = sMoonphases.search(aDateStrings[0].substr(0,6 ));
-
-// Als we die datum niet vinden is het gedaan. Dat is in feite een theoretische mogelijkheid, want de div met de
-// maanfazen bevat dezelfde datums als de div met de extremen (hoog- en laagwaterstanden).
-if ( i == -1 ) {return -1}
-
-// Dan de 10 opeenvolgende maanfazen stockeren in een variabele. Let op: aan het einde van
-// de div blijven er minder dan 90 tekens over.
-sMoonphases = sMoonphases.substr(i, Math.min(90,sMoonphases.length));
-
-// Nu doorzoeken we de string sMoonphases, die in feite een verkorte uitgave is van de div met de maanfazen, met
-// ieder element van de DateString-array.
-for ( i=0 ; i<aDateStrings.length ; i+=1 ){
-
-    n = sMoonphases.search(aDateStrings[i]);
-
-    if( n != -1 ){
-
-        aMoonphases[i] = sMoonphases.substr(n+8,1);
-
-        // We kunnen hier ook spring- of doodtij twee elementen verder invoeren, want we gaan binnen twee dagen geen
-        // andere maanfaze vinden.
-        if ( "NV".search(aMoonphases[i]) != -1){aMoonphases[i+2] = "S" }
-        if ( "EL".search(aMoonphases[i]) != -1){aMoonphases[i+2] = "D" }
-
-    }
-}
-
-// De eerste twee elementen hadden we  nodig, maar ze staan niet op het scherm, dus verwijderen.
-aMoonphases.shift();
-aMoonphases.shift();
-
-return aMoonphases
-}
-
-
-/***
-* Deze Udf geeft een tijdstip als string aan de hand van het als parameter doorgegeven Date object.
-* De teruggeven string heeft als format, bijvoorbeeld "201505180933".
-*/
-function getTimeStringFromDateObject( oDate ) {
-var myString = "" ;
-var myTime = [ oDate.getFullYear() ,  oDate.getMonth() + 1 ,  oDate.getDate() ,  oDate.getHours() , oDate.getMinutes() ] ;
-for (var i in myTime) {
-    if ( i > 0 ) { if ( myTime[i] < 10 ) { myTime[i] = "0"+ myTime[i] } } ;
-    myString += myTime[i].toString() } ;
-return myString ;
-}
-
-
-
-
-
-
-/***
-* Deze Udf geeft een Date object met daarin de gegevens die overeenstemmen met de time-string die als parameter doorgegeven wordt.
-* De parameter heeft een format bijvoorbeeld "201505180933".
-*/
-function GetDateObjectFromTimeString( cTimeString ){
-var myDate = new Date();
-myDate.setFullYear ( parseInt (cTimeString.substr(0,4),10) , parseInt (cTimeString.substr(4,2),10)-1, parseInt (cTimeString.substr(6,2),10) );
-myDate.setHours( parseInt (cTimeString.substr(8,2),10) , parseInt (cTimeString.substr(10,2),10) );
-return myDate;
-}
-
-
-
-
-
-/***
-* Natuurlijk de zee als achtergrond.
-*/
-function setBackground(){
-document.body.style.backgroundImage = "url('bg.jpg')";
-}
-
-
-/***
-* Deze Udf geeft een array met de tijdscorrecties per locatie. De tweede kolom is ten opzichte van Hoogwater en
-* de derde kolom is ten opzichte van Laagwater. De volgorde van de locaties in de array moet hetzelfde zijn
-* als de volgorde van de locaties in de tabel.
-*/
-function getCorrections(){
-var a = createArray(7, 3);
-a[0][0]="Borssele";       a[0][1] = 12 ; a[0][2] = 15 ;
-a[1][0]="Hansweert";      a[1][1] = 51 ; a[1][2] = 51 ;
-a[2][0]="Roompot Binnen"; a[2][1] = 78 ; a[2][2] = 57 ;
-a[3][0]="Roompot Buiten"; a[3][1] =  0 ; a[3][2] = -8 ;
-a[4][0]="Vlissingen";     a[4][1] =  0 ; a[4][2] =  0 ;
-a[5][0]="Yerseke";        a[5][1] = 98 ; a[5][2] = 75 ;
-a[6][0]="Zierikzee";      a[6][1] = 88 ; a[6][2] = 66 ;
-return a;
-}
-
-
-/***
-* Deze Udf geeft een lege array met het aantal rijen en kolommen bepaald door de parameters.
-*/
-function createArray ( rows, cols ) {
-var myArray = new Array(rows);
-for (var i = 0; i < myArray.length; i+=1) { myArray[i] = new Array(cols) }
-return myArray
-}
-
-
-
-
-
-
-
-
 /************************************************************************************************
 *
 *                   De hiernavolgende code betreft de Date Picker
-*                             (Nog te implementeren)
 *
 *************************************************************************************************/
 
 function ShowDatePicker(){
+var myDate
 
 // Als men meerdere keren op de div klikt, mag dat geen aanleiding geven tot meerdere Date Pickers.
 if(document.getElementById ("DatePickerBox")){return}
 
+// Eerst een lege Date Picker creëren.
 CreateEmptyDatePicker();
-UpdateDatepicker();
+
+// Dan deze actualiseren aan de hand van de getoonde datum in het HTML-document.
+myDate  = GetDateObjectFromLongDate( document.getElementById( "Datum" ).innerHTML );
+UpdateDatepicker(myDate);
+
 }
 
 
 /***
 * Deze Udf geeft een lege DatePicker.
-* Die bevat alle nodige Divs, behalve de Divs voor de dagen van de maand (1 ... 31). Die vullen we aan in een
-* aparte Udf omdat dit zowel bij creatie als bij wijziging van de referentiemaand moet gebeuren.
+* Die bevat alle nodige Divs, behalve de Divs voor de dagen van de maand (1 ... 31). Die vullen we aan
+* in een aparte Udf omdat dit zowel bij creatie als bij wijziging van de referentiemaand moet gebeuren.
 */
 function CreateEmptyDatePicker(){
 var myConDiv, myDiv, myElement, i
-
-// Aangezien deze functie als eerste in actie komt, initialiseren we hier enkele variabelen die we declareren
-// zonder het keyword "var", zodat ze een global scope krijgen.
-refDate = new Date()
-dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
 
 // Globale container Div voor de Date Picker creëren.
 myConDiv = document.createElement ("div");
 myConDiv.id = "DatePickerBox";
 myConDiv.style.position = "absolute";
-myConDiv.style.top = "275px";
-myConDiv.style.left = "420px";
+myConDiv.style.top = "60px";
+myConDiv.style.left = "40px";
 myConDiv.style.width = "245px";
 myConDiv.style.fontFamily = "Tahoma, Arial, Helvetica, Sans-serif";
 myConDiv.style.fontSize = "14px";
@@ -876,7 +673,15 @@ myConDiv.style.borderTop = "1px solid Grey";
 myConDiv.style.borderLeft = "1px solid Grey";
 myConDiv.style.borderRight = "1px solid Grey";
 
-// De container Div voor de maand creëren, aanvullen met vier subDivs en aan de container Div van de Date Picker hangen.
+/*
+We hebben nu de globale containerDiv voor de Date Picker gecreëerd. Als eerste hangen we daar
+een Div aan die 4 elementen zal bevatten. Dat is de bovenste regel van de Date Picker.
+Het eerste element is de Div om de vorige maand te selecteren.
+Het tweede element is om te maand te tonen. Die heeft geen EventListener.
+Het derde element is de Div om de volgende maand te selecteren.
+Het vierde element is om de Date Picker te sluiten.
+*/
+
 myDiv = document.createElement ("div");
 myDiv.style.clear = "both";
 myDiv.style.borderBottom = "1px solid Grey";
@@ -905,7 +710,7 @@ myElement.id = "MonthBox";
 myElement.style.width = "150px";
 myElement.style.styleFloat = "left";
 myElement.style.cssFloat = "left";
-myElement.innerHTML = "december 2014";
+myElement.innerHTML = "xxxxxxxx xxxx";
 myElement.style.color = "White";
 myElement.style.textAlign = "center";
 myElement.style.paddingBottom = "5px";
@@ -946,20 +751,22 @@ myDiv.appendChild (myElement);
 
 myConDiv.appendChild (myDiv);
 
-// De container Div voor de vermelding van de dagnamen creëren, aanvullen met een Div voor iedere dagnaam
-// en aan de container Div van de Date Picker hangen.
+/*
+Op de tweede rij tonen we de verkorte dagnamen. Die rij behoeft geen EventListeners.
+*/
+
 myDiv = document.createElement ("div");
 myDiv.id = "DayNamesBox";
 myDiv.style.height = "20px";
 myDiv.style.clear = "both";
-for ( i=0; i < dayNames.length; i++) {
+for ( i=0; i <= 6; i++) {
     myElement = document.createElement ("div");
     myElement.class = "DayNameBox";
     myElement.style.styleFloat = "left";
     myElement.style.cssFloat = "left";
     myElement.style.width = "35px";
     myElement.style.textAlign = "center";
-    myElement.innerHTML = dayNames[i];
+    myElement.innerHTML = GetShortWeekDay( i );
     myElement.style.color = "DarkRed";
     myElement.style.paddingBottom = "4px";
     myElement.style.paddingTop = "4px";
@@ -967,8 +774,10 @@ for ( i=0; i < dayNames.length; i++) {
 }
 myConDiv.appendChild (myDiv);
 
-// De container Div voor de dagen van de maand creëren en aan de container Div van de Date Picker hangen.
-// Het aanvullen met een Div voor iedere dag in functie van de referentiedatum gebeurt in een andere Udf.
+/*
+Vervolgens creëren we een containerDiv voor de dagen (cijfers) van de maand. Deze laten we
+voorlopig leeg. Het aanvullen gebeurt in UpdateDatepicker(). 
+*/
 myDiv = document.createElement ("div");
 myDiv.id = "DaysBox";
 myDiv.style.clear = "both";
@@ -976,53 +785,61 @@ myDiv.style.display = "table";
 myDiv.style.borderBottom = "1px solid Grey";
 myConDiv.appendChild (myDiv);
 
-document.body.appendChild(myConDiv);
+document.body.appendChild(myConDiv);  // De lege Date Picker aan de body hangen.
 
 }  // End of CreateEmptyDatePicker().
 
 
+
 /***
-* Deze Udf actualiseert de DatePicker aan de hand van de referentiedatum.
+* Deze Udf actualiseert de DatePicker aan de hand van de referentiedatum, die we als parameter doorkrijgen.
 */
-function UpdateDatepicker(){
-var myDiv, myElement, numDays, i, n
-var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+function UpdateDatepicker(oDate){
+var myDiv, myElement, myDate, myArray, numDays, i, n ;
+var myArray = GetLongDate( oDate ).split(" ") ;
 
-// De container Div voor de dagen van de maand heeft "DaysBox" als id.
-myDiv = document.getElementById ("DaysBox")
+// De containerDiv voor de dagen van de maand heeft "DaysBox" als id.
+myDiv = document.getElementById ("DaysBox");
 
-// Eerst de container Div leegmaken want er kunnen nog dagen in staan.
+// Eerst die containerDiv leegmaken want er kunnen nog dagen in staan.
 while (myDiv.firstChild) { myDiv.removeChild(myDiv.firstChild); }
 
-// Referentiemaand opzoeken en tonen.
-document.getElementById ("MonthBox").innerHTML = monthNames[refDate.getMonth()]+"  "+ refDate.getFullYear ()
+// Referentiemaand + jaartal (van oDate) opzoeken en tonen.
+document.getElementById ("MonthBox").innerHTML = myArray[1] + " " + myArray[2]
 
-// Opzoeken op welke plaats de eerste dag van de maand staat in de array met de dagnamen.
-// Tot aan deze positie creëren we lege Divs, zodat de eerste dag van de maand op de juiste plaats getoond wordt.
-refDate.setDate(1)
-n = dayNames.indexOf (refDate.toDateString ().substr(0,3))
+// Opzoeken op welke plaats de eerste dag van de maand staat. Tot aan deze positie creëren
+// we lege Divs, zodat de eerste dag van de maand op de juiste plaats getoond wordt.
+
+// Nieuw Date-object voor de eerste dag van de maand van de referentiedatum (oDate).
+myDate = new Date( oDate.getFullYear(), oDate.getMonth(), 1);
+
+// De dag van de week waarop de eerste dag van de maand valt.
+n = myDate.getDay();
+
 for ( i=0; i < n; i++) {
     myElement = CreateDateBox( 0 );
     myDiv.appendChild (myElement);
 }
 
 // Dan de resterende Divs creëren om alle dagen van de referentiemaand te tonen. Het aantal kennen we niet, dat
-// moeten we bepalen aan de hand van het Date object, met de functie GetNumDays().
-numDays = GetNumDays();
+// moeten we bepalen met de functie GetNumDays(), aan de hand van het Date object, .
+numDays = GetNumDays(oDate);
 for ( i=1; i <= numDays; i++) {
     myElement = CreateDateBox( i );
     myDiv.appendChild (myElement);
 }
 
-UpdateTodaysBoxColors()
+// De datum van vandaag geven we een andere kleur.
+UpdateTodaysBoxColors(oDate)
 
-}  // End of UpdateDatepicker().
+}  // End of UpdateDatepicker()
 
 
 /***
 * Deze Udf geeft een Div voor één dag van de maand.
-* De vakjes waar geen cijfer in getoond wordt, creëren we op dezelfde manier zodat de afmetingen en uitlijning hetzelfde
-* blijven, maar we geven ze dezelfde voor- en achtergrondkleur als de DatePickerBox, zodat ze onzichtbaar worden.
+* De vakjes waar geen cijfer in getoond wordt, creëren we op dezelfde manier zodat de
+* afmetingen en uitlijning hetzelfde blijven, maar we geven ze dezelfde voor- en 
+* achtergrondkleur als de DatePickerBox, zodat ze onzichtbaar worden.
 */
 function CreateDateBox( nDay ){
 var myBox = document.createElement ("div");
@@ -1031,7 +848,7 @@ myBox.style.styleFloat = "left";
 myBox.style.cssFloat = "left";
 myBox.style.width = "29px";
 myBox.style.textAlign = "center";
-myBox.innerHTML =nDay;
+myBox.innerHTML = nDay;
 myBox.style.border = "1px solid Grey";
 myBox.style.margin= "2px";
 
@@ -1043,8 +860,8 @@ if(nDay == 0) {
 else {
     myBox.style.backgroundColor = "Lavender";
     myBox.style.border = "1px solid Grey";
-    myBox.addEventListener ("mouseover", MouseOverDate, false);
-    myBox.addEventListener ("mouseout", MouseOutDate, false);
+    myBox.addEventListener ("mouseover", MouseOverDay, false);
+    myBox.addEventListener ("mouseout", MouseOutDay, false);
     myBox.addEventListener ("click", OnDateClick, false);
 }
 
@@ -1055,28 +872,49 @@ return myBox
 /***
 * Deze Udf geeft het vakje met de dag van vandaag een aangepaste kleur.
 */
-function UpdateTodaysBoxColors(){
+function UpdateTodaysBoxColors(xDate){
 var myToday , myBoxes, i
 
 // Nieuw Date object voor de dag van vandaag.
 myToday = new Date();
 
-// Als de getoonde maand niet de huidige maand is, is het gedaan.
-if ( myToday.getMonth() !== refDate.getMonth() ){return;}
+// Als het getoonde jaartal niet de huidige maand is, is het gedaan.
+if ( myToday.getFullYear() !== xDate.getFullYear() ){return;}
 
-// De vakjes met de dagen van de maand zetten we in een array.
+// Als de getoonde maand niet de huidige maand is, is het ook gedaan.
+if ( myToday.getMonth() !== xDate.getMonth() ){return;}
+
+// De vakjes met de dagen van de maand zetten we in een HTML collection.
 myBoxes = document.getElementsByClassName("DayBox");
 
-// Het vakje met de dag van vandaag geven we een ander kleurtje?
-i=0
-while (myBoxes[i].innerHTML != myToday.getDate().toString()) { i++ }
+// Het vakje met de dag van vandaag geven we een ander kleurtje.
+i = 0;
+while (myBoxes[i].innerHTML != myToday.getDate().toString()) { i++; }
 myBoxes[i].style.backgroundColor = "Khaki";
+
 }
 
 
-function GetNumDays(){
-return new Date( refDate.getFullYear()  ,  refDate.getMonth()+1   , 0).getDate();
+/***
+* Deze Udf geeft de verkorte geschreven dag, op basis van de dag van de week die we als
+* parameter doorkrijgen. De eerste dag (zondag) heeft 0 als index.
+*/
+function GetShortWeekDay( nDay ) {
+var arr = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+return  arr[ nDay ];
 }
+
+
+/***
+* Deze functie geeft het aantal dagen in de maand van de datum die we als parameter
+* doorkrijgen. We maken gebruik van het feit dat, als we als 3de argument bij new Date
+* het cijfer 0 doorgeven, we dan de laatste dag van de maand voordien bekomen.
+*/
+function GetNumDays(xDate){
+return new Date( xDate.getFullYear(),  xDate.getMonth()+1, 0).getDate();
+}
+
+// Vanaf hier de callbacks-------------
 
 function MouseOverNextOrPrevious(){
 this.style.color = "DarkRed";
@@ -1090,44 +928,54 @@ this.style.backgroundColor = "Green";
 }
 
 function OnNextClick(){
-refDate.setMonth(refDate.getMonth()+1);
-UpdateDatepicker();
+var myLongDate = "1 " + document.getElementById ("MonthBox").innerHTML ;
+var myRefDate = GetDateObjectFromLongDate(myLongDate)
+myRefDate.setMonth(myRefDate.getMonth()+1);
+UpdateDatepicker(myRefDate);
 }
 
 function OnPreviousClick(){
-refDate.setMonth(refDate.getMonth()-1);
-UpdateDatepicker();
+var myLongDate = "1 " + document.getElementById ("MonthBox").innerHTML ;
+var myRefDate = GetDateObjectFromLongDate(myLongDate)
+myRefDate.setMonth(myRefDate.getMonth()-1);
+UpdateDatepicker(myRefDate);
 }
 
 function OnCloseClick(){
 RemoveDatePicker()
 }
 
-function MouseOverDate(){
+function MouseOverDay(){
 this.style.backgroundColor = "LemonChiffon";
 this.style.cursor = "pointer";
 }
 
-function MouseOutDate(){
-this.style.backgroundColor = "Lavender";
-UpdateTodaysBoxColors()
+
+function MouseOutDay(){
+var myDatePickerDate
+var myBackgroundColor = "Lavender"
+var myToday = new Date();
+
+// in MontBox staat ook het jaartal.
+myDatePickerDate = this.innerHTML + " " + document.getElementById ("MonthBox").innerHTML ; 
+if ( myDatePickerDate == GetLongDate(myToday) ){
+    myBackgroundColor = "Khaki";
+}
+this.style.backgroundColor = myBackgroundColor;
 }
 
+
 function OnDateClick(){
-var myMonth, myDay, myString;
-myMonth = (refDate.getMonth()+1).toString();
-if(myMonth.length == 1){myMonth = "0" + myMonth}
-myDay = this.innerHTML;
-if(myDay.length == 1){myDay = "0" + myDay}
-myString = refDate.getFullYear() + myMonth + myDay;
-setData( myString ) ;
-RemoveDatePicker();}
+var myDatePickerDate = this.innerHTML + " " + document.getElementById ("MonthBox").innerHTML ; 
+var myObjectDate = GetDateObjectFromLongDate(myDatePickerDate) ;
+setData( myObjectDate ) ;
+RemoveDatePicker() ;
+}
 
 function RemoveDatePicker(){
 var myDatePicker = document.getElementById ("DatePickerBox");
 myDatePicker.parentNode.removeChild (myDatePicker);
 }
-
 
 </script>
 </html>
