@@ -401,6 +401,17 @@ if (HiddenDivExist() === null) {
     return;
 }
 
+// De getijdegegevens krijgen we aangeleverd in een array.
+aTides = GetTides(myDate);
+
+// Als we geen getijdegegevens krijgen, heeft de gebruiker waarschijnlijk
+// een datum gekozen die buiten het bereik ligt. 
+if ( aTides.length == 0 ) {
+    alert ("Geen gegevens beschikbaar voor deze datum.") ;
+    return ;
+}
+
+
 // Eerst tonen we die nieuwe datumgegevens op het scherm.
 document.getElementById( "DagvdWeek" ).innerHTML = GetWeekDay(myDate);
 document.getElementById( "Datum" ).innerHTML = GetLongDate(myDate);
@@ -410,8 +421,6 @@ document.getElementById( "Datum" ).innerHTML = GetLongDate(myDate);
 document.getElementById( "D4" ).innerHTML = "-" ;
 document.getElementById( "T4" ).innerHTML = "-" ;
 
-// De getijdegegevens krijgen we aangeleverd in een array.
-aTides = GetTides(myDate);
 
 // Deze gegevens tonen we op het scherm.
 for (i = 1; i <= (aTides.length/2) ; i++ ) {
@@ -631,7 +640,7 @@ return n;
 
 /************************************************************************************************
 *
-*                   De hiernavolgende code betreft de Date Picker
+*                    De hiernavolgende code betreft de Date Picker.
 *
 *************************************************************************************************/
 
@@ -914,7 +923,12 @@ function GetNumDays(xDate){
 return new Date( xDate.getFullYear(),  xDate.getMonth()+1, 0).getDate();
 }
 
-// Vanaf hier de callbacks-------------
+
+/************************************************************************************************
+*
+*                     De hiernavolgende functies zijn de callbacks.
+*
+*************************************************************************************************/
 
 function MouseOverNextOrPrevious(){
 this.style.color = "DarkRed";
