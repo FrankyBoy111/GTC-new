@@ -163,7 +163,6 @@ border-left: 2px solid White;
 .BottomTable {
 width:100%;
 padding-top: 40px;
-pdding-bottom:40px;
 }
 
 .Btn {
@@ -466,14 +465,14 @@ for (i = 1; i <= (aTides.length) ; i++ ) {
 * De array kan 6 of 8 elementen hebben, naargelang er 3 of 4 tijdstippen in de referentiedag liggen.
 */
 function GetTides(oDate) {
-var myLocation, dataString, myDtos, n ;
+var myLocation, dataString, myDtos, i, n ;
 var myArray = new Array();
 
 // We gebruiken de locatie die op dit moment op het scherm getoond wordt.
 myLocation = document.getElementById("myLocations").value;
 
 // De string met alle getijdegegevens voor de betreffende locatie.
-var dataString = document.getElementById("Tides" + myLocation).innerHTML;
+dataString = document.getElementById("Tides" + myLocation).innerHTML;
 
 // Om de datum op te zoeken in de string, moet deze het gepast format hebben.
 myDtos = oDate.getFullYear() + String(oDate.getMonth()+1).padStart(2,"0")   + String(oDate.getDate()).padStart(2,"0") ;
@@ -495,8 +494,8 @@ while(dataString.substr(n,8) == myDtos) {
 
 //Tenslotte de array-elementen omzetten naar het gepaste formaat.
 for ( i = 0; i < myArray.length; i++ ) {
-    if ( myArray[i].length == 1 ) {myArray[i] = myArray[i] +"W"}
-    if ( myArray[i].length == 12 ) {myArray[i] = myArray[i].substr(8, 2)  + ":" + myArray[i].substr(10, 2) }  
+    if ( myArray[i].length == 1 ) {myArray[i] = myArray[i] +"W" ;}
+    if ( myArray[i].length == 12 ) {myArray[i] = myArray[i].substr(8, 2)  + ":" + myArray[i].substr(10, 2) ; }  
 }
 
 return myArray;
@@ -511,7 +510,7 @@ function GetSpringAndNeap(oDate) {
 var myArray, dataString, myDtos, n, S0, S1, D0, D1 ;
 
 // De string met alle springtij- en doodtijgegevens.
-var dataString = document.getElementById("SpringAndNeap").innerHTML;
+dataString = document.getElementById("SpringAndNeap").innerHTML;
 
 // Om de datum op te zoeken in de string, moet deze het gepast format hebben.
 myDtos = oDate.getFullYear() + String(oDate.getMonth()+1).padStart(2,"0")   + String(oDate.getDate()).padStart(2,"0") ;
@@ -646,8 +645,8 @@ return myDate;
 * Het formaat van de parameters is yyyymmyy.
 */
 function DeltaDate(d0, d1) {
-var dd0 = new Date( d0.substr(0,4), d0.substr(4,2), d0.substr(6,2) )
-var dd1 = new Date( d1.substr(0,4), d1.substr(4,2), d1.substr(6,2) )
+var dd0 = new Date( d0.substr(0,4), d0.substr(4,2), d0.substr(6,2) ) ;
+var dd1 = new Date( d1.substr(0,4), d1.substr(4,2), d1.substr(6,2) ) ;
 return (dd1 - dd0) / 86400000;
 }
 
@@ -665,10 +664,10 @@ return n;
 *************************************************************************************************/
 
 function ShowDatePicker(){
-var myDate
+var myDate ;
 
 // Als men meerdere keren op de div klikt, mag dat geen aanleiding geven tot meerdere Date Pickers.
-if(document.getElementById ("DatePickerBox")){return}
+if(document.getElementById ("DatePickerBox")){return ;}
 
 // Eerst een lege Date Picker creëren.
 CreateEmptyDatePicker();
@@ -686,7 +685,7 @@ UpdateDatepicker(myDate);
 * in een aparte Udf omdat dit zowel bij creatie als bij wijziging van de referentiemaand moet gebeuren.
 */
 function CreateEmptyDatePicker(){
-var myConDiv, myDiv, myElement, i
+var myConDiv, myDiv, myElement, i ;
 
 // Globale container Div voor de Date Picker creëren.
 myConDiv = document.createElement ("div");
@@ -824,7 +823,7 @@ document.body.appendChild(myConDiv);  // De lege Date Picker aan de body hangen.
 * Deze Udf actualiseert de DatePicker aan de hand van de referentiedatum, die we als parameter doorkrijgen.
 */
 function UpdateDatepicker(oDate){
-var myDiv, myElement, myDate, myArray, numDays, i, n ;
+var myDiv, myElement, myDate, numDays, i, n ;
 var myArray = GetLongDate( oDate ).split(" ") ;
 
 // De containerDiv voor de dagen van de maand heeft "DaysBox" als id.
@@ -834,7 +833,7 @@ myDiv = document.getElementById ("DaysBox");
 while (myDiv.firstChild) { myDiv.removeChild(myDiv.firstChild); }
 
 // Referentiemaand + jaartal (van oDate) opzoeken en tonen.
-document.getElementById ("MonthBox").innerHTML = myArray[1] + " " + myArray[2]
+document.getElementById ("MonthBox").innerHTML = myArray[1] + " " + myArray[2] ;
 
 // Opzoeken op welke plaats de eerste dag van de maand staat. Tot aan deze positie creëren
 // we lege Divs, zodat de eerste dag van de maand op de juiste plaats getoond wordt.
@@ -859,7 +858,7 @@ for ( i=1; i <= numDays; i++) {
 }
 
 // De datum van vandaag geven we een andere kleur.
-UpdateTodaysBoxColors(oDate)
+UpdateTodaysBoxColors(oDate) ;
 
 }  // End of UpdateDatepicker()
 
@@ -896,7 +895,7 @@ else {
     myBox.addEventListener ("click", OnDateClick, false);
 }
 
-return myBox
+return myBox ;
 }
 
 
@@ -904,7 +903,7 @@ return myBox
 * Deze Udf geeft het vakje met de dag van vandaag een aangepaste kleur.
 */
 function UpdateTodaysBoxColors(xDate){
-var myToday , myBoxes, i
+var myToday , myBoxes, i ;
 
 // Nieuw Date object voor de dag van vandaag.
 myToday = new Date();
@@ -965,20 +964,20 @@ this.style.backgroundColor = "Green";
 
 function OnNextClick(){
 var myLongDate = "1 " + document.getElementById ("MonthBox").innerHTML ;
-var myRefDate = GetDateObjectFromLongDate(myLongDate)
-myRefDate.setMonth(myRefDate.getMonth()+1);
-UpdateDatepicker(myRefDate);
+var myRefDate = GetDateObjectFromLongDate(myLongDate) ;
+myRefDate.setMonth(myRefDate.getMonth()+1) ;
+UpdateDatepicker(myRefDate) ;
 }
 
 function OnPreviousClick(){
 var myLongDate = "1 " + document.getElementById ("MonthBox").innerHTML ;
-var myRefDate = GetDateObjectFromLongDate(myLongDate)
-myRefDate.setMonth(myRefDate.getMonth()-1);
+var myRefDate = GetDateObjectFromLongDate(myLongDate) ;
+myRefDate.setMonth(myRefDate.getMonth()-1) ;
 UpdateDatepicker(myRefDate);
 }
 
 function OnCloseClick(){
-RemoveDatePicker()
+RemoveDatePicker() ;
 }
 
 function MouseOverDay(){
@@ -988,9 +987,9 @@ this.style.cursor = "pointer";
 
 
 function MouseOutDay(){
-var myDatePickerDate
-var myBackgroundColor = "Lavender"
-var myToday = new Date();
+var myDatePickerDate ;
+var myBackgroundColor = "Lavender" ;
+var myToday = new Date() ;
 
 // in MontBox staat ook het jaartal.
 myDatePickerDate = this.innerHTML + " " + document.getElementById ("MonthBox").innerHTML ; 
